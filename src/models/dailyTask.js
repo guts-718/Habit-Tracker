@@ -51,6 +51,11 @@ export function logTaskMinutes({ dailyTaskId, minutes }) {
 
 
 
+
+
+
+
+
 export function setTaskMinutes({ dailyTaskId, actualMinutes }) {
   if (actualMinutes < 0) {
     throw new Error("Invalid minutes");
@@ -86,6 +91,11 @@ export function setTaskMinutes({ dailyTaskId, actualMinutes }) {
     WHERE id = ?
   `).run(actualMinutes, completionRatio, status, dailyTaskId);
 }
+
+
+
+
+
 
 export function skipTask(dailyTaskId) {
   db.prepare(`
