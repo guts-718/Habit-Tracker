@@ -7,11 +7,39 @@ import { generateWeeklyMarkdown } from "../services/weeklyExport.js";
 import { getDailyStreak, getTaskStreaks } from "../services/streaks.js";
 import { buildWeeklyBrutalPrompt } from "../prompts/weeklyBrutalPrompt.js";
 import { getWeeklyTaskStats } from "../services/taskWeeklyStats.js";
-
-
+import { evaluatePenalties } from "../services/penalties.js";
+import { runWeeklyExport } from "../services/autoWeeklyExport.js";
 
 
 const router = express.Router();
+
+
+router.post("/weekly/export/run", async (req, res) => {
+  await runWeeklyExport();
+  res.json({ status: "Weekly export completed" });
+});
+
+router.post("/today", async (req, res) => {
+  const today = calculateTodayScore();
+  const weekly = getWeeklySummary();
+
+  const penalties = evaluatePenalties(today.score);
+
+  const prompt = buildBrutalPrompt({
+    today,
+    weekly,
+    penalties
+  });
+
+  const feedback = await runLLM({ prompt });
+
+  res.json({
+    score: today.score,
+    label: today.label,
+    penalties,
+    feedback
+  });
+});
 
 
 
