@@ -37,6 +37,21 @@ const fn = (db) => {
   `);
 
 
+
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS task_sessions (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      daily_task_id INTEGER NOT NULL,
+      start_time TEXT,
+      end_time TEXT,
+      duration_minutes INTEGER NOT NULL,
+      source TEXT CHECK(source IN ('STOPWATCH', 'MANUAL')) NOT NULL,
+      created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (daily_task_id) REFERENCES daily_tasks(id)
+    );
+`);
+
+
   //   db.exec(`
   //   ALTER TABLE daily_tasks ADD name TEXT;
   // `);

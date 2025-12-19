@@ -2,9 +2,12 @@ import express from "express";
 import dailyRoutes from "./daily.js";
 import taskRoutes from "./tasks.js";
 import summaryRoutes from "./summary.js";
+import sessionRoutes from "./sessions.js";
+
+
 
 const router = express.Router();
-
+router.use("/sessions", sessionRoutes);
 router.use("/daily", dailyRoutes);
 router.use("/tasks", taskRoutes);
 router.use("/summary", summaryRoutes);
