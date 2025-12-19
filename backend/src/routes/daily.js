@@ -48,4 +48,20 @@ router.post("/:id/skip", (req, res) => {
   }
 });
 
+router.get("/today/stats", (req, res) => {
+  const { date } = getTodayIST();
+
+  const rows = db.prepare(`
+    SELECT planned_minutes, actual_minutes
+    FROM daily_tasks
+    WHERE date = ?
+  `).all(date);
+
+  const planned = rows.reduce((s, r) => s + r.planned_minutes, 0);
+  const actual = rows.reduce((s, r) => s + r.actual_minutes, 0);
+
+  res.json({ planned, actual });
+});
+
+
 export default router;
