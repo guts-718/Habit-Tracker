@@ -27,6 +27,7 @@ export function generateTodayTasks() {
   const insertStmt = db.prepare(`
     INSERT INTO daily_tasks (
       id,
+      name,
       task_template_id,
       date,
       planned_minutes,
@@ -35,17 +36,19 @@ export function generateTodayTasks() {
       status,
       created_at
     )
-    VALUES (?, ?, ?, ?, 0, 0, 'PENDING', ?)
+    VALUES (?, ?, ?, ?, ?, 0, 0, 'PENDING', ?)
   `);
 
   const now = new Date().toISOString();
 
   for (const t of templates) {
+    console.log("T ",t);
     const days = JSON.parse(t.days_of_week);
 
     if (days.includes(day)) {
       insertStmt.run(
         randomUUID(),
+        t.name,
         t.id,
         date,
         t.planned_minutes,

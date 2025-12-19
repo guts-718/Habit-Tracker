@@ -36,6 +36,18 @@ const fn = (db) => {
     );
   `);
 
+
+  //   db.exec(`
+  //   ALTER TABLE daily_tasks ADD name TEXT;
+  // `);
+
+
+
+    // ⚠️ TEMPORARY: clear daily tasks
+
+
+
+
   // 3. Daily summary (cached score)
   db.exec(`
     CREATE TABLE IF NOT EXISTS daily_summary (
@@ -77,6 +89,21 @@ const fn = (db) => {
   `);
 
   console.log("✅ Database migration completed");
+
+    // db.exec(`
+    //   DELETE FROM daily_tasks;
+    // `);
+  
+    // db.exec(`
+    //   DELETE FROM task_templates;
+    // `);
+
+
 };
+
+
+
+
+
 
 export default fn;
